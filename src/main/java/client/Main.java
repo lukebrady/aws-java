@@ -11,7 +11,7 @@ public class Main {
         DescribeInstancesResponse resp = e.getAllInstances();
         for (Reservation res : resp.reservations()) {
             for (Instance instance: res.instances()) {
-                System.out.println(instance);
+                e.terminateInstance(instance);
             }
         }
         // e.createNewInstance();
