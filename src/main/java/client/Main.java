@@ -1,28 +1,16 @@
 package client;
 
-import client.EC2Reader;
-import client.Persistence;
-import org.bson.Document;
-import software.amazon.awssdk.services.ec2.model.Instance;
-import software.amazon.awssdk.services.ec2.model.DescribeInstancesResponse;
-import software.amazon.awssdk.services.ec2.model.Reservation;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ec2.model.Volume;
 
-public class Main {
-    public static void main(String[] args) {
-        /*
-        EC2Reader e = new EC2Reader();
-        DescribeInstancesResponse resp = e.getAllInstances();
-        for (Reservation res : resp.reservations()) {
-            for (Instance instance: res.instances()) {
-                e.terminateInstance(instance);
-            }
-        }
-        // e.createNewInstance();
-        e.getAllInstances();
-        e.close();
-         */
-        Persistence p = new Persistence("localhost", 27107);
-        p.setDatabaseCollection("test", "test_col");
-        p.writeData(new Document("name", "test").append("version", 1));
+import java.net.ServerSocket;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        EBSVolumeClient client = new EBSVolumeClient("default", Region.US_EAST_1);
+        Volume volume = client.describeVolume("vol-0d9c469ea0e19754b");
+        System.out.println(volume.encrypted());
     }
 }
